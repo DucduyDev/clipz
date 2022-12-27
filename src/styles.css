@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #161d31;
+}
+
+.material-icons.text-base {
+  font-size: inherit;
+}
+
+.bg-secondary {
+  background-color: #283046;
+}
+
+.bg-gradient {
+  background: linear-gradient(132deg, #fc415a, #591bc5, #212335);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+}

@@ -1,0 +1,9 @@
+<app-nav></app-nav>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<app-auth-modal
+  *ngIf="!(auth.isAuthenticatedWithDelay$ | async)"
+></app-auth-modal>

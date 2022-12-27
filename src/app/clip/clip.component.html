@@ -1,0 +1,30 @@
+<!-- Main Content -->
+<section class="container mx-auto mb-10 bg-secondary px-10 py-6">
+  <div class="rounded relative flex flex-col">
+    <!-- Title and Uploader -->
+    <h3 class="font-semibold mb-2 text-2xl">{{ clip?.title }}</h3>
+    <p class="text-gray-400 mb-6">
+      Uploaded By <strong>{{ clip?.displayName }}</strong> on
+      <time>{{ clip?.timestamp | timestamp }}</time>
+    </p>
+
+    <!-- Video Editor -->
+    <div class="relative aspect-video w-9/12 mx-auto">
+      <!-- Video Player -->
+      <video
+        #videoPlayer
+        controls
+        crossorigin
+        class="video-js vjs-theme-forest mx-auto w-full h-full"
+      ></video>
+    </div>
+  </div>
+</section>
+
+<!-- More Clips -->
+<section class="container mx-auto px-10">
+  <h3 class="text-2xl">More Clips</h3>
+
+  <!-- Video List -->
+  <app-clips-list [enableInfiniteScrolling]="false"></app-clips-list>
+</section>

@@ -1,0 +1,18 @@
+<!-- Tabs -->
+<ul class="flex flex-wrap mb-8">
+  <li class="flex-1 text-center" *ngFor="let tab of tabs">
+    <button
+      type="button"
+      class="w-full py-3 px-4 transition text-white font-semibold text-lg"
+      [ngClass]="{
+        'hover:text-indigo-400': !tab.active,
+        'border-indigo-400 border-b-2': tab.active
+      }"
+      (click)="selectTab(tab)"
+    >
+      {{ tab.tabTitle }}
+    </button>
+  </li>
+</ul>
+
+<ng-content></ng-content>

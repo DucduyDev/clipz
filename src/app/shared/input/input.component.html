@@ -1,0 +1,44 @@
+<label class="inline-block mb-2 text-lg">{{ label }}</label>
+
+<input
+  [formControl]="control"
+  [type]="type"
+  [placeholder]="placeholder"
+  [mask]="format"
+  [dropSpecialCharacters]="false"
+  class="block w-full py-1.5 px-3 mb-2 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+/>
+
+<ng-container *ngIf="control.touched && control.dirty">
+  <p *ngIf="control.errors?.pattern" class="text-red-400">
+    Password must be at least 8 characters long, has 1 uppercase letter, 1
+    lowercase letter, and 1 number.
+  </p>
+
+  <p *ngIf="control.errors?.required" class="text-red-400">
+    Field is required.
+  </p>
+
+  <p *ngIf="control.errors?.minlength" class="text-red-400">
+    The value inputted is
+    {{ control.errors?.minlength.actualLength }}
+    characters long. It must be at least
+    {{ control.errors?.minlength.requiredLength }} long.
+  </p>
+
+  <p class="text-red-400" *ngIf="control.errors?.email">
+    You must enter a valid email.
+  </p>
+
+  <p class="text-red-400" *ngIf="control.errors?.min">Value too low.</p>
+
+  <p class="text-red-400" *ngIf="control.errors?.max">Value too high.</p>
+
+  <p class="text-red-400" *ngIf="control.errors?.noMatch">
+    Password not match.
+  </p>
+
+  <p class="text-red-400" *ngIf="control.errors?.emailTaken">
+    Email taken. Please try another email.
+  </p>
+</ng-container>

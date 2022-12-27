@@ -1,0 +1,107 @@
+<!-- Main Content -->
+<section class="container mx-auto my-8 bg-secondary px-10 py-6">
+  <h3 class="font-semibold mb-10 uppercase text-xl">Upload your video</h3>
+
+  <!-- Loading icon (loading ffmpeg) -->
+  <ng-container *ngIf="!ffmpegService.isReady; else uploadEditorTemp">
+    <div class="text-center">
+      <span class="material-icons text-6xl animate-spin">settings</span>
+    </div>
+  </ng-container>
+
+  <ng-template #uploadEditorTemp>
+    <!-- Upload dropbox -->
+    <ng-container *ngIf="!nextStep; else uploadFormTemp">
+      <div
+        app-event-blocker
+        (dragend)="isDragOver = false"
+        (dragover)="isDragOver = true"
+        (dragenter)="isDragOver = true"
+        (dragleave)="isDragOver = false"
+        (mouseleave)="isDragOver = false"
+        (drop)="processFile($event)"
+        [ngClass]="{
+          'bg-indigo-400 border-solid border-indigo-400': isDragOver
+        }"
+        class="block w-full px-10 py-40 mb-4 rounded text-center cursor-pointer border border-dashed border-gray-400 transition duration-500 hover:bg-indigo-400 hover:border-indigo-400 hover:border-solid text-xl"
+      >
+        <h5>Drop your file here (mp4 only!)</h5>
+
+        <!-- Loading icon (generating screenshots) -->
+        <span
+          *ngIf="ffmpegService.isRunning"
+          class="material-icons text-6xl p-8 animate-spin"
+          >autorenew</span
+        >
+      </div>
+
+      <input
+        class="file:cursor-pointer cursor-pointer block w-full text-md text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
+        type="file"
+        (change)="processFile($event)"
+      />
+    </ng-container>
+
+    <!-- Video Editor -->
+    <ng-template #uploadFormTemp>
+      <app-alert *ngIf="showAlert" [color]="alertColor">
+        <p>{{ alertMessage }}</p>
+        <p *ngIf="showPercentage">{{ percentage | percent }}</p>
+      </app-alert>
+
+      <form
+        [formGroup]="uploadForm"
+        (ngSubmit)="uploadFile()"
+        class="flex flex-col gap-10"
+      >
+        <!-- Screenshots -->
+        <div>
+          <label class="mb-4 block uppercase font-semibold"
+            >Select a Thumbnail</label
+          >
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <figure
+              class="border-8 cursor-pointer"
+              *ngFor="let screenshot of screenshots"
+              [ngClass]="
+                selectedScreenshot === screenshot
+                  ? 'border-green-400'
+                  : 'border-transparent'
+              "
+              (click)="selectedScreenshot = screenshot"
+            >
+              <img [src]="screenshot | safeURL" />
+            </figure>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div>
+          <label class="block mb-4 font-semibold uppercase">Title</label>
+          <app-input [control]="title" placeholder="Enter Title"></app-input>
+        </div>
+
+        <!-- Submission button -->
+        <div class="flex justify-end gap-5">
+          <button
+            [disabled]="uploadForm.invalid || inSubmission"
+            type="submit"
+            class="transition-colors py-2 px-4 border border-transparent rounded text-white font-semibold bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:bg-indigo-600"
+          >
+            Publish
+          </button>
+
+          <button
+            [disabled]="inSubmission"
+            (click)="nextStep = false"
+            type="button"
+            class="transition-colors py-2 px-4 border border-indigo-500 rounded text-white font-semibold disabled:opacity-50"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </ng-template>
+</section>

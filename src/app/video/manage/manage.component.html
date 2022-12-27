@@ -1,0 +1,85 @@
+<!-- Top Bar -->
+<section class="container mx-auto my-8 bg-secondary px-10 py-6">
+  <div class="relative flex justify-between">
+    <a
+      routerLink="/upload"
+      class="bg-indigo-600 rounded font-medium text-white py-4 px-10 text-xl hover:bg-indigo-700 transition"
+      >Upload Videos</a
+    >
+
+    <!-- Sort Videos -->
+    <select
+      class="text-black font-medium rounded px-8 text-xl outline-none appearance-none"
+      (change)="sort($event)"
+    >
+      <option [selected]="videoOrder === '1'" value="1">Recent Uploads</option>
+      <option [selected]="videoOrder === '2'" value="2">Oldest Uploads</option>
+    </select>
+  </div>
+</section>
+
+<!-- User's Video Section -->
+<section class="container mx-auto my-8 px-10">
+  <!-- Video List -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div
+      *ngFor="let clip of clips"
+      class="hover:-translate-y-2 hover:shadow-2xl transition duration-300 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary flex flex-col justify-start overflow-hidden"
+    >
+      <!-- Image -->
+      <a [routerLink]="['/', 'clip', clip.docID]" class="block w-full h-4/6">
+        <img
+          class="card-img-top rounded-tl-2xl w-full h-full object-cover"
+          [src]="clip.screenshotURL"
+          crossorigin
+        />
+      </a>
+
+      <!-- Body -->
+      <div class="p-6 text-2xl flex items-center justify-between">
+        <!-- Link -->
+        <a
+          [routerLink]="['/', 'clip', clip.docID]"
+          class="font-semibold mb-2"
+          [title]="clip.title"
+          >{{ clip.title | textEllipsis : 22 }}</a
+        >
+
+        <button
+          (click)="copyToClipboard(clip.docID)"
+          type="button"
+          class="bg-gray-400 text-white px-2 py-1 ml-2 text-sm rounded"
+        >
+          Copy Link
+        </button>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex text-center text-2xl bg-gray-800 p-2 mt-auto">
+        <button
+          (click)="openModal(clip)"
+          class="flex-1 p-2 border-right border-r-2 border-gray-700 transition hover:text-indigo-400"
+        >
+          <span class="material-icons text-base">build</span>
+        </button>
+
+        <button
+          (click)="deleteClip(clip)"
+          class="flex-1 p-2 rounded-br-2xl transition hover:text-indigo-400"
+        >
+          <span class="material-icons text-base">delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p
+  class="flex items-center justify-center gap-4 text-center text-lg font-medium"
+  *ngIf="clips.length === 0"
+>
+  <span class="material-icons text-4xl">info</span>
+  You don't have any clips yet! Try uploading one and come back.
+</p>
+
+<app-edit [activeClip]="activeClip" (update)="update($event)"></app-edit>
