@@ -12,6 +12,6 @@
 | Firebase             | Back-end                              |
 | WebAssembly (FFmpeg) | used for processing video screenshots |
 
-Vercel link: https://clipz-rho.vercel.app/
+<a target="_blank" href="https://clipz-rho.vercel.app/">Vercel link here</a>
 
 _Note: This is a learning project I built when I was learning Angular_
