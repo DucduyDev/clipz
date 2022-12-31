@@ -9,7 +9,7 @@ describe('NavComponent', () => {
   let fixture: ComponentFixture<NavComponent>;
   let component: NavComponent;
 
-  const MockedAuthService = jasmine.createSpyObj('AuthService', ['logout'], {
+  const mockedAuthService = jasmine.createSpyObj('AuthService', ['logout'], {
     isAuthenticated$: of(true),
   });
 
@@ -20,7 +20,7 @@ describe('NavComponent', () => {
       providers: [
         {
           provide: AuthService,
-          useValue: MockedAuthService,
+          useValue: mockedAuthService,
         },
       ],
     }).compileComponents();
